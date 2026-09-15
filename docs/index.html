@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ตารางผู้ตรวจประเมิน</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./vendor/xlsx.full.min.js"></script>
+  <script defer src="./vendor/html2canvas.min.js"></script>
+  <script defer src="./vendor/jszip.min.js"></script>
+  <script defer src="./schedule.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header><div class="brand">งานตรวจประเมิน <span>• ตารางและการแจ้งเตือน</span></div>
+    <h1>จัดตารางให้พร้อมส่ง<br><em>ถึงอาจารย์ทุกท่าน</em></h1>
+    <p>นำเข้า Excel ที่จัดตารางไว้แล้ว เพื่อสร้างการ์ดรายบุคคลและรายหน่วยงาน</p>
+  </header>
+  <main>
+    <section class="panel no-print" aria-label="นำเข้าตาราง">
+      <div><h2>เริ่มจากไฟล์ตารางของคุณ</h2><p>ประมวลผลในเบราว์เซอร์ ไฟล์ Excel ไม่ถูกอัปโหลดหรือเก็บบนเซิร์ฟเวอร์</p></div>
+      <label class="upload">1. Browse — เลือก Excel จากเครื่อง<input id="file" type="file" accept=".xlsx,.xls"></label>
+      <p id="file-info">ยังไม่ได้เลือกไฟล์ • เลือกได้จากทุกโฟลเดอร์ในเครื่องหรือไดรฟ์ที่เข้าถึงได้</p>
+      <div class="settings"><label>2. เลือกเดือน / แท็บใน Excel <select id="sheet" disabled><option value="">เลือกไฟล์ Excel ก่อน</option></select></label><label>หัวข้อบนการ์ด <input id="period" placeholder="เช่น ตุลาคม 2569"></label><button id="clear" class="secondary">ล้างข้อมูล</button></div>
+      <p id="status" role="status" aria-live="polite">รองรับ .xlsx และ .xls • เลือกไฟล์ → เลือกแท็บเดือน → ดูและดาวน์โหลดการ์ด</p>
+      <details><summary>รูปแบบตารางที่รองรับ</summary><p>หัวตารางภายใน 20 แถวแรก: โรงพยาบาล (หรือหน่วยงาน), จังหวัด, การนัดหมาย (หรือวันที่ตรวจ/วันที่), หัวหน้าทีม และผู้ตรวจ1, ผู้ตรวจ2 … รองรับวันที่ Excel และวันที่ภาษาไทย แถวที่ไม่มีวันนัดหรือระบุเลื่อนจะถูกข้าม</p></details>
+    </section>
+    <section id="workspace" hidden>
+      <div class="toolbar no-print"><div class="tabs"><button id="individual" aria-pressed="true">รายบุคคล</button><button id="group" aria-pressed="false">รายหน่วยงาน</button></div><input id="search" type="search" aria-label="ค้นหา" placeholder="ค้นหาชื่อ / หน่วยงาน / จังหวัด"><button id="zip">ดาวน์โหลดภาพ ZIP</button><button id="print" class="secondary">พิมพ์ / PDF</button></div>
+      <p id="stats"></p><div id="cards" class="cards"></div>
+    </section>
+    <div id="empty" class="empty"><span>▦</span><h2>ตารางใหม่ เริ่มได้ที่นี่</h2><p>เลือกไฟล์ Excel เพื่อดูการ์ดและตรวจสอบข้อมูลก่อนส่ง</p></div>
+  </main>
+  <footer class="no-print">ตารางผู้ตรวจประเมิน • เมื่อปิดหรือรีเฟรชหน้าเว็บ ต้องเลือกไฟล์ใหม่</footer>
+</body>
+</html>
