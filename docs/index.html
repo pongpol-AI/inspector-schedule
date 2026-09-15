@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ตารางผู้ตรวจประเมิน</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./dashboard.css">
   <script defer src="./vendor/xlsx.full.min.js"></script>
   <script defer src="./vendor/html2canvas.min.js"></script>
   <script defer src="./vendor/jszip.min.js"></script>
@@ -12,18 +13,23 @@
   <script defer src="./app.js"></script>
 </head>
 <body>
-  <header><div class="brand">งานตรวจประเมิน <span>• ตารางและการแจ้งเตือน</span></div>
-    <h1>จัดตารางให้พร้อมส่ง<br><em>ถึงอาจารย์ทุกท่าน</em></h1>
-    <p>นำเข้า Excel ที่จัดตารางไว้แล้ว เพื่อสร้างการ์ดรายบุคคลและรายหน่วยงาน</p>
-  </header>
+  <aside class="sidebar no-print">
+    <div class="sidebar-brand"><span class="logo">▦</span><div><strong>Inspector Schedule</strong><small>ระบบจัดการผู้ตรวจประเมิน</small></div></div>
+    <nav aria-label="เมนูหลัก"><a class="active" href="#dashboard">▦ <span>หน้าหลัก (Dashboard)</span></a><a href="#import-panel">↥ <span>นำเข้าตาราง Excel</span></a><a href="#workspace">▤ <span>การ์ดผู้ตรวจประเมิน</span></a><a href="#help">ⓘ <span>คู่มือการใช้งาน</span></a></nav>
+    <div class="sidebar-bottom"><strong>ตารางตรวจประเมิน</strong><p>เลือกไฟล์ • เลือกเดือน • สร้างการ์ด</p><small>ข้อมูลประมวลผลภายในเครื่องของคุณ</small></div>
+  </aside>
+  <div class="dashboard-main" id="dashboard">
+  <header class="topbar no-print"><div><div class="breadcrumbs">หน้าหลัก <span>/</span> <strong>Dashboard</strong></div><small>ระบบจัดตารางและแจ้งเตือนผู้ตรวจประเมิน</small></div><span class="local-badge">● ประมวลผลในเบราว์เซอร์</span></header>
   <main>
-    <section class="panel no-print" aria-label="นำเข้าตาราง">
+    <section class="welcome no-print"><div><h1>ตารางนัดหมายผู้ตรวจประเมิน</h1><p>จัดการตารางจาก Excel และสร้างการ์ดแจ้งเตือนสำหรับอาจารย์ผู้ตรวจประเมิน</p></div><span aria-hidden="true">▦</span></section>
+    <section class="overview no-print" aria-label="สรุปตาราง"><div><span class="metric-icon">▤</span><div><small>รายการตรวจประเมิน</small><strong id="metric-jobs">0 <small>รายการ</small></strong></div></div><div><span class="metric-icon blue">♙</span><div><small>อาจารย์ผู้ตรวจประเมิน</small><strong id="metric-people">0 <small>คน</small></strong></div></div><div><span class="metric-icon amber">▦</span><div><small>เดือน / แท็บที่เลือก</small><strong id="metric-month">ยังไม่เลือก</strong></div></div></section>
+    <section id="import-panel" class="panel no-print" aria-label="นำเข้าตาราง">
       <div><h2>เริ่มจากไฟล์ตารางของคุณ</h2><p>ประมวลผลในเบราว์เซอร์ ไฟล์ Excel ไม่ถูกอัปโหลดหรือเก็บบนเซิร์ฟเวอร์</p></div>
       <label class="upload">1. Browse — เลือก Excel จากเครื่อง<input id="file" type="file" accept=".xlsx,.xls"></label>
       <p id="file-info">ยังไม่ได้เลือกไฟล์ • เลือกได้จากทุกโฟลเดอร์ในเครื่องหรือไดรฟ์ที่เข้าถึงได้</p>
       <div class="settings"><label>2. เลือกเดือน / แท็บใน Excel <select id="sheet" disabled><option value="">เลือกไฟล์ Excel ก่อน</option></select></label><label>หัวข้อบนการ์ด <input id="period" placeholder="เช่น ตุลาคม 2569"></label><button id="clear" class="secondary">ล้างข้อมูล</button></div>
       <p id="status" role="status" aria-live="polite">รองรับ .xlsx และ .xls • เลือกไฟล์ → เลือกแท็บเดือน → ดูและดาวน์โหลดการ์ด</p>
-      <details><summary>รูปแบบตารางที่รองรับ</summary><p>หัวตารางภายใน 20 แถวแรก: โรงพยาบาล (หรือหน่วยงาน), จังหวัด, การนัดหมาย (หรือวันที่ตรวจ/วันที่), หัวหน้าทีม และผู้ตรวจ1, ผู้ตรวจ2 … รองรับวันที่ Excel และวันที่ภาษาไทย แถวที่ไม่มีวันนัดหรือระบุเลื่อนจะถูกข้าม</p></details>
+      <details id="help"><summary>รูปแบบตารางที่รองรับ</summary><p>หัวตารางภายใน 20 แถวแรก: โรงพยาบาล (หรือหน่วยงาน), จังหวัด, การนัดหมาย (หรือวันที่ตรวจ/วันที่), หัวหน้าทีม และผู้ตรวจ1, ผู้ตรวจ2 … รองรับวันที่ Excel และวันที่ภาษาไทย แถวที่ไม่มีวันนัดหรือระบุเลื่อนจะถูกข้าม</p></details>
     </section>
     <section id="workspace" hidden>
       <div class="toolbar no-print"><div class="tabs"><button id="individual" aria-pressed="true">รายบุคคล</button><button id="group" aria-pressed="false">รายหน่วยงาน</button></div><input id="search" type="search" aria-label="ค้นหา" placeholder="ค้นหาชื่อ / หน่วยงาน / จังหวัด"><button id="zip">ดาวน์โหลดภาพ ZIP</button><button id="print" class="secondary">พิมพ์ / PDF</button></div>
@@ -32,5 +38,6 @@
     <div id="empty" class="empty"><span>▦</span><h2>ตารางใหม่ เริ่มได้ที่นี่</h2><p>เลือกไฟล์ Excel เพื่อดูการ์ดและตรวจสอบข้อมูลก่อนส่ง</p></div>
   </main>
   <footer class="no-print">ตารางผู้ตรวจประเมิน • เมื่อปิดหรือรีเฟรชหน้าเว็บ ต้องเลือกไฟล์ใหม่</footer>
+  </div>
 </body>
 </html>
