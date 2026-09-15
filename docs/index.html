@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ตารางผู้ตรวจประเมิน</title>
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./dashboard.css">
+  <link rel="stylesheet" href="./style.css?v=20260915-summary2">
+  <link rel="stylesheet" href="./dashboard.css?v=20260915-summary2">
   <script defer src="./vendor/xlsx.full.min.js"></script>
   <script defer src="./vendor/html2canvas.min.js"></script>
   <script defer src="./vendor/jszip.min.js"></script>
-  <script defer src="./schedule.js"></script>
-  <script defer src="./app.js"></script>
+  <script defer src="./schedule.js?v=20260915-summary2"></script>
+  <script defer src="./app.js?v=20260915-summary2"></script>
 </head>
 <body>
   <aside class="sidebar no-print">
@@ -22,7 +22,7 @@
   <header class="topbar no-print"><div><div class="breadcrumbs">หน้าหลัก <span>/</span> <strong>Dashboard</strong></div><small>ระบบจัดตารางและแจ้งเตือนผู้ตรวจประเมิน</small></div><span class="local-badge">● ประมวลผลในเบราว์เซอร์</span></header>
   <main>
     <section class="welcome no-print"><div><h1>ตารางนัดหมายผู้ตรวจประเมิน</h1><p>จัดการตารางจาก Excel และสร้างการ์ดแจ้งเตือนสำหรับอาจารย์ผู้ตรวจประเมิน</p></div><span aria-hidden="true">▦</span></section>
-    <section class="overview no-print" aria-label="สรุปตาราง"><div><span class="metric-icon">▤</span><div><small>รายการตรวจประเมิน</small><strong id="metric-jobs">0 <small>รายการ</small></strong></div></div><div><span class="metric-icon blue">♙</span><div><small>อาจารย์ผู้ตรวจประเมิน</small><strong id="metric-people">0 <small>คน</small></strong></div></div><div><span class="metric-icon amber">▦</span><div><small>เดือน / แท็บที่เลือก</small><strong id="metric-month">ยังไม่เลือก</strong></div></div></section>
+    <section class="overview no-print" aria-label="สรุปตาราง"><div><span class="metric-icon">▤</span><div><small>รายการตรวจประเมิน</small><strong id="metric-jobs">—</strong></div></div><div><span class="metric-icon blue">♙</span><div><small>อาจารย์ผู้ตรวจประเมิน</small><strong id="metric-people">—</strong></div></div><div><span class="metric-icon amber">▦</span><div><small>เดือน / แท็บที่เลือก</small><strong id="metric-month">เลือกไฟล์ Excel</strong></div></div></section>
     <section id="import-panel" class="panel no-print" aria-label="นำเข้าตาราง">
       <div><h2>เริ่มจากไฟล์ตารางของคุณ</h2><p>ประมวลผลในเบราว์เซอร์ ไฟล์ Excel ไม่ถูกอัปโหลดหรือเก็บบนเซิร์ฟเวอร์</p></div>
       <label class="upload">1. Browse — เลือก Excel จากเครื่อง<input id="file" type="file" accept=".xlsx,.xls"></label>

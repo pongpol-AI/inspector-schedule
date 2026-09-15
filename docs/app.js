@@ -5,9 +5,10 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 function status(message,error=false){$('status').textContent=message;$('status').classList.toggle('error',error);}
 function render(){
   const allPeople=Schedule.people(jobs), query=$('search').value.trim().toLocaleLowerCase();
-  $('metric-jobs').textContent=jobs.length+' รายการ';
-  $('metric-people').textContent=allPeople.length+' คน';
-  $('metric-month').textContent=$('sheet').value||'ยังไม่เลือก';
+  const hasSchedule=jobs.length>0;
+  $('metric-jobs').textContent=hasSchedule?jobs.length+' รายการ':'—';
+  $('metric-people').textContent=hasSchedule?allPeople.length+' คน':'—';
+  $('metric-month').textContent=$('sheet').value||(workbook?'กรุณาเลือกแท็บเดือน':'เลือกไฟล์ Excel');
   const entries=mode==='individual'?allPeople:jobs.map(j=>[j.hospital,[j]]);
   const shown=entries.filter(([name,list])=>(name+' '+list.map(j=>[j.hospital,j.province,j.date,j.leader,...j.inspectors].join(' ')).join(' ')).toLocaleLowerCase().includes(query));
   $('workspace').hidden=!jobs.length;$('empty').hidden=!!jobs.length;
